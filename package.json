@@ -32,13 +32,18 @@
   "homepage": "https://github.com/deNULL/Az.js#readme",
   "devDependencies": {
     "blanket": "^1.2.3",
+    "chai": "^4.2.0",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.0",
     "gulp-filesize": "0.0.6",
     "gulp-jsdoc-to-markdown": "^1.2.2",
+    "gulp-rename": "^2.0.0",
     "gulp-sourcemaps": "^2.0.0-alpha",
+    "gulp-uglify": "^3.0.2",
     "gulp-util": "^3.0.7",
-    "mocha": "^8.2.0"
+    "merge-stream": "^2.0.0",
+    "mocha": "^8.2.0",
+    "sinon": "^9.2.0"
   },
   "config": {
     "blanket": {
@@ -50,12 +55,5 @@
         "test"
       ]
     }
-  },
-  "dependencies": {
-    "chai": "^4.2.0",
-    "gulp-rename": "^2.0.0",
-    "gulp-uglify": "^3.0.2",
-    "merge-stream": "^2.0.0",
-    "sinon": "^9.2.0"
   }
 }
