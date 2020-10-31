@@ -100,5 +100,6 @@ class Az {
 }
 
 Az.ResponceType = ResponceType;
+Az.Tokens = require('./tokens/tokens');
 
 module.exports = Az;
