@@ -4,7 +4,7 @@
     "description": "A NLP library for Russian language",
     "main": "dist/az.js",
     "scripts": {
-        "test": "mocha",
+        "test": "mocha --no-timeouts",
         "build": "webpack"
     },
     "repository": {
