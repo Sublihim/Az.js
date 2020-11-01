@@ -355,8 +355,8 @@ class Tokens {
                             st -= 8;
 
                             append = false;
-                            tokenType = Tokens.TAG;
-                            tokenSubType = Tokens.CLOSING;
+                            tokenType = Token.TYPE.TAG;
+                            tokenSubType = Token.TYPE.CLOSING;
                         } else if (
                             token.length >= 7 &&
                             token.toString().substr(-7) === '</style'
@@ -365,76 +365,76 @@ class Tokens {
                             st -= 7;
 
                             append = false;
-                            tokenType = Tokens.TAG;
-                            tokenSubType = Tokens.CLOSING;
+                            tokenType = Token.TYPE.TAG;
+                            tokenSubType = Token.TYPE.CLOSING;
                         }
                     }
                 } else if (
-                    token.type === Tokens.TAG &&
-                    token.type !== Tokens.CLOSING &&
+                    token.type === Token.TYPE.TAG &&
+                    token.type !== Token.TYPE.CLOSING &&
                     token.length >= 8 &&
                     token.toLowerCase().substr(1, 6) === 'script'
                 ) {
-                    tokenType = Tokens.CONTENT;
-                    tokenSubType = Tokens.SCRIPT;
+                    tokenType = Token.TYPE.CONTENT;
+                    tokenSubType = Token.TYPE.SCRIPT;
                 } else if (
-                    token.type === Tokens.TAG &&
-                    token.type !== Tokens.CLOSING &&
+                    token.type === Token.TYPE.TAG &&
+                    token.type !== Token.TYPE.CLOSING &&
                     token.length >= 7 &&
                     token.toLowerCase().substr(1, 5) === 'style'
                 ) {
-                    tokenType = Tokens.CONTENT;
-                    tokenSubType = Tokens.STYLE;
+                    tokenType = Token.TYPE.CONTENT;
+                    tokenSubType = Token.TYPE.STYLE;
                 } else if (
                     config.html &&
                     token.length === 1 &&
                     s[token.st] === '<' &&
-                    (charType === Tokens.LATIN || ch === '!' || ch === '/')
+                    (charType === Token.TYPE.LATIN || ch === '!' || ch === '/')
                 ) {
                     append = true;
-                    token.type = Tokens.TAG;
+                    token.type = Token.TYPE.TAG;
                     if (ch === '!') {
-                        token.subType = Tokens.COMMENT;
+                        token.subType = Token.TYPE.COMMENT;
                     } else if (ch === '/') {
-                        token.subType = Tokens.CLOSING;
+                        token.subType = Token.TYPE.CLOSING;
                     }
-                } else if (token.type === Tokens.CONTENT) {
+                } else if (token.type === Token.TYPE.CONTENT) {
                     append = true;
                 } else if (
-                    token.type === Tokens.MARKUP &&
-                    token.subType === Tokens.TEMPLATE &&
+                    token.type === Token.TYPE.MARKUP &&
+                    token.subType === Token.TYPE.TEMPLATE &&
                     (s[token.en()] !== '}' || s[token.en() - 1] !== '}')
                 ) {
                     append = true;
                 } else if (
-                    token.type === Tokens.MARKUP &&
-                    token.type === Tokens.LINK &&
+                    token.type === Token.TYPE.MARKUP &&
+                    token.type === Token.TYPE.LINK &&
                     s[token.en()] !== ')'
                 ) {
                     append = true;
                 } else if (
-                    token.type === Tokens.MARKUP &&
+                    token.type === Token.TYPE.MARKUP &&
                     s[token.st] === '`' &&
-                    token.subType === Tokens.NEWLINE &&
-                    charType === Tokens.LATIN
+                    token.subType === Token.TYPE.NEWLINE &&
+                    charType === Token.TYPE.LATIN
                 ) {
                     append = true;
                 } else if (
-                    charType === Tokens.CYRIL ||
-                    charType === Tokens.LATIN
+                    charType === Token.TYPE.CYRIL ||
+                    charType === Token.TYPE.LATIN
                 ) {
-                    if (token.type === Tokens.WORD) {
+                    if (token.type === Token.TYPE.WORD) {
                         append = true;
                         token.subType =
                             token.subType === charType
                                 ? token.subType
-                                : Tokens.MIXED;
-                    } else if (token.type === Tokens.NUMBER) {
+                                : Token.TYPE.MIXED;
+                    } else if (token.type === Token.TYPE.NUMBER) {
                         // Digits + ending
                         append = true;
                         token.subType =
                             token.subType && token.subType !== charType
-                                ? Tokens.MIXED
+                                ? Token.TYPE.MIXED
                                 : charType;
                     } else if (
                         config.hashtags &&
@@ -443,43 +443,43 @@ class Tokens {
                     ) {
                         // Hashtags
                         append = true;
-                        token.type = Tokens.HASHTAG;
+                        token.type = Token.TYPE.HASHTAG;
                     } else if (
                         config.mentions &&
                         token.length === 1 &&
                         s[token.st] === '@' &&
-                        (last === 0 || ts[last - 1].type === Tokens.SPACE)
+                        (last === 0 || ts[last - 1].type === Token.TYPE.SPACE)
                     ) {
                         // Mentions
                         append = true;
-                        token.type = Tokens.MENTION;
+                        token.type = Token.TYPE.MENTION;
                     } else if (
-                        charType === Tokens.LATIN &&
+                        charType === Token.TYPE.LATIN &&
                         token.length === 1 &&
                         (s[token.st] === "'" || s[token.st] === '’')
                     ) {
                         append = true;
-                        token.type = Tokens.WORD;
-                        token.subType = Tokens.LATIN;
+                        token.type = Token.TYPE.WORD;
+                        token.subType = Token.TYPE.LATIN;
                     } else if (token.length === 1 && s[token.st] === '-') {
                         // -цать (?), 3-й
                         append = true;
 
-                        if (last > 0 && ts[last - 1].type === Tokens.NUMBER) {
+                        if (last > 0 && ts[last - 1].type === Token.TYPE.NUMBER) {
                             token = ts[last - 1];
                             token.length += ts[last].length;
 
                             ts.length -= 1;
                         }
 
-                        token.type = Tokens.WORD;
+                        token.type = Token.TYPE.WORD;
                         token.subType = charType;
                     }
-                } else if (charType === Tokens.DIGIT) {
-                    if (token.type === Tokens.WORD) {
+                } else if (charType === Token.TYPE.DIGIT) {
+                    if (token.type === Token.TYPE.WORD) {
                         append = true;
-                        token.subType = Tokens.MIXED;
-                    } else if (token.type === Tokens.NUMBER) {
+                        token.subType = Token.TYPE.MIXED;
+                    } else if (token.type === Token.TYPE.NUMBER) {
                         append = true;
                     } else if (
                         token.length === 1 &&
@@ -487,20 +487,20 @@ class Tokens {
                     ) {
                         append = true;
 
-                        if (last > 0 && ts[last - 1].type === Tokens.NUMBER) {
+                        if (last > 0 && ts[last - 1].type === Token.TYPE.NUMBER) {
                             token = ts[last - 1];
                             token.length += ts[last].length;
-                            token.subType = Tokens.RANGE;
+                            token.subType = Token.TYPE.RANGE;
 
                             ts.length -= 1;
                         }
 
-                        token.type = Tokens.NUMBER;
+                        token.type = Token.TYPE.NUMBER;
                     } else if (
                         token.length === 1 &&
                         (s[token.st] === ',' || s[token.st] === '.') &&
                         ts.length > 1 &&
-                        ts[last - 1].type === Tokens.NUMBER
+                        ts[last - 1].type === Token.TYPE.NUMBER
                     ) {
                         append = true;
 
@@ -509,12 +509,12 @@ class Tokens {
 
                         ts.length -= 1;
                     }
-                } else if (charType === Tokens.SPACE) {
-                    if (token.type === Tokens.SPACE) {
+                } else if (charType === Token.TYPE.SPACE) {
+                    if (token.type === Token.TYPE.SPACE) {
                         append = true;
                     }
                 } else if (
-                    token.type === Tokens.MARKUP &&
+                    token.type === Token.TYPE.MARKUP &&
                     s[token.st] === ch &&
                     "=-~:*#`'>_".indexOf(ch) > -1
                 ) {
@@ -528,23 +528,23 @@ class Tokens {
                     ) {
                         // Links without protocol but with www
                         append = true;
-                        token.type = Tokens.LINK;
+                        token.type = Token.TYPE.LINK;
                     }
                 } else if (config.wiki && ch === "'" && s[token.en()] === "'") {
                     if (token.length > 1) {
                         token.length--;
                         st--;
-                        tokenType = Tokens.MARKUP;
+                        tokenType = Token.TYPE.MARKUP;
                     } else {
                         append = true;
-                        token.type = Tokens.MARKUP;
+                        token.type = Token.TYPE.MARKUP;
                     }
                 } else if (
                     ch === '-' ||
-                    (token.subType === Tokens.LATIN &&
+                    (token.subType === Token.TYPE.LATIN &&
                         (ch === '’' || ch === "'"))
                 ) {
-                    if (token.type === Tokens.WORD) {
+                    if (token.type === Token.TYPE.WORD) {
                         append = true;
                     }
                 } else if (ch === '/') {
@@ -552,8 +552,8 @@ class Tokens {
                         config.links &&
                         config.links.protocols &&
                         ts.length > 2 &&
-                        ts[last - 2].type === Tokens.WORD &&
-                        ts[last - 2].subType === Tokens.LATIN &&
+                        ts[last - 2].type === Token.TYPE.WORD &&
+                        ts[last - 2].subType === Token.TYPE.LATIN &&
                         ts[last - 1].length === 1 &&
                         s[ts[last - 1].st] === ':' &&
                         ts[last].length === 1 &&
@@ -568,14 +568,14 @@ class Tokens {
                             token.allUpper &&
                             ts[last - 1].allUpper &&
                             ts[last].allUpper;
-                        token.type = Tokens.LINK;
+                        token.type = Token.TYPE.LINK;
 
                         ts.length -= 2;
                     }
                 } else if (config.html && ch === ';') {
                     if (
                         last > 0 &&
-                        token.type === Tokens.WORD &&
+                        token.type === Token.TYPE.WORD &&
                         ts[last - 1].length === 1 &&
                         s[ts[last - 1].st] === '&'
                     ) {
@@ -585,13 +585,13 @@ class Tokens {
                         token.length += ts[last].length;
                         token.allUpper =
                             token.allUpper && ts[last - 1].allUpper;
-                        token.type = Tokens.ENTITY;
+                        token.type = Token.TYPE.ENTITY;
 
                         ts.length -= 1;
                     } else if (
                         last > 1 &&
-                        (token.type === Tokens.WORD ||
-                            token.type === Tokens.NUMBER) &&
+                        (token.type === Token.TYPE.WORD ||
+                            token.type === Token.TYPE.NUMBER) &&
                         ts[last - 1].length === 1 &&
                         s[ts[last - 1].st] === '#' &&
                         ts[last - 2].length === 1 &&
@@ -605,7 +605,7 @@ class Tokens {
                             token.allUpper &&
                             ts[last - 1].allUpper &&
                             ts[last].allUpper;
-                        token.type = Tokens.ENTITY;
+                        token.type = Token.TYPE.ENTITY;
 
                         ts.length -= 2;
                     }
@@ -616,15 +616,15 @@ class Tokens {
                     s[token.st] === '!'
                 ) {
                     append = true;
-                    token.type = Tokens.MARKUP;
+                    token.type = Token.TYPE.MARKUP;
                 } else if (
                     config.markdown &&
                     ch === '(' &&
                     token.length === 1 &&
                     s[token.st] === ']'
                 ) {
-                    tokenType = Tokens.MARKUP;
-                    tokenSubType = Tokens.LINK;
+                    tokenType = Token.TYPE.MARKUP;
+                    tokenSubType = Token.TYPE.LINK;
                 } else if (
                     config.wiki &&
                     ch === '{' &&
@@ -632,8 +632,8 @@ class Tokens {
                     s[token.st] === '{'
                 ) {
                     append = true;
-                    token.type = Tokens.MARKUP;
-                    token.subType = Tokens.TEMPLATE;
+                    token.type = Token.TYPE.MARKUP;
+                    token.subType = Token.TYPE.TEMPLATE;
                 } else if (
                     config.wiki &&
                     ch === '[' &&
@@ -676,7 +676,7 @@ class Tokens {
                         }
                         last = found;
                         ts.length = last + 1;
-                        token.subType = Tokens.LINK;
+                        token.subType = Token.TYPE.LINK;
                     }
                 }
             }
@@ -937,4 +937,6 @@ function getMatcher(filter, exclude) {
     };
 }
 
-module.exports = Tokens;
+module.exports = (text, config) => {
+    return new Tokens(text, config);
+};
