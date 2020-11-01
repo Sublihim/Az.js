@@ -1,64 +1,62 @@
 {
-  "name": "az",
-  "version": "0.2.3",
-  "description": "A NLP library for Russian language",
-  "main": "dist/az.js",
-  "scripts": {
-    "test": "mocha"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/deNULL/Az.js.git"
-  },
-  "keywords": [
-    "NLP",
-    "natural",
-    "language",
-    "processing",
-    "morphology",
-    "syntax",
-    "tokenization",
-    "words",
-    "names",
-    "parse",
-    "inflect",
-    "Russian"
-  ],
-  "author": "Denis Olshin (me@denull.ru)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/deNULL/Az.js/issues"
-  },
-  "homepage": "https://github.com/deNULL/Az.js#readme",
-  "devDependencies": {
-    "blanket": "^1.2.3",
-    "chai": "^4.2.0",
-    "eslint": "^7.12.0",
-    "eslint-config-htmlacademy": "^0.6.0",
-    "eslint-config-standard": "^15.0.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.2",
-    "gulp": "^4.0.2",
-    "gulp-concat": "^2.6.0",
-    "gulp-rename": "^2.0.0",
-    "gulp-sourcemaps": "^2.0.0-alpha",
-    "gulp-uglify": "^3.0.2",
-    "gulp-util": "^3.0.7",
-    "jsdoc-to-markdown": "^6.0.1",
-    "mocha": "^8.2.0",
-    "sinon": "^9.2.0"
-  },
-  "config": {
-    "blanket": {
-      "pattern": [
-        ""
-      ],
-      "data-cover-never": [
-        "node_modules",
-        "test"
-      ]
-    }
-  }
+    "name": "az",
+    "version": "0.2.3",
+    "description": "A NLP library for Russian language",
+    "main": "dist/az.js",
+    "scripts": {
+        "test": "mocha",
+        "build": "webpack"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/deNULL/Az.js.git"
+    },
+    "keywords": [
+        "NLP",
+        "natural",
+        "language",
+        "processing",
+        "morphology",
+        "syntax",
+        "tokenization",
+        "words",
+        "names",
+        "parse",
+        "inflect",
+        "Russian"
+    ],
+    "author": "Denis Olshin (me@denull.ru)",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/deNULL/Az.js/issues"
+    },
+    "homepage": "https://github.com/deNULL/Az.js#readme",
+    "devDependencies": {
+        "blanket": "^1.2.3",
+        "chai": "^4.2.0",
+        "eslint": "^7.12.0",
+        "eslint-config-htmlacademy": "^0.6.0",
+        "eslint-config-standard": "^15.0.0",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "eslint-plugin-standard": "^4.0.2",
+        "jsdoc-to-markdown": "^6.0.1",
+        "mocha": "^8.2.0",
+        "sinon": "^9.2.0",
+        "webpack": "^5.3.2",
+        "webpack-cli": "^4.1.0"
+    },
+    "config": {
+        "blanket": {
+            "pattern": [
+                ""
+            ],
+            "data-cover-never": [
+                "node_modules",
+                "test"
+            ]
+        }
+    },
+    "type": "commonjs"
 }
